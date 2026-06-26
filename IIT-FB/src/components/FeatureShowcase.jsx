@@ -59,7 +59,6 @@ const FeatureShowcase = () => {
       const rect = containerRef.current.getBoundingClientRect();
       const viewHeight = window.innerHeight;
 
-      // Calculate how far we have scrolled inside the features container
       const totalScrollableHeight = rect.height - viewHeight;
       const scrolled = -rect.top;
 
@@ -67,7 +66,6 @@ const FeatureShowcase = () => {
       containerRef.current.style.setProperty('--scroll-progress', progress);
 
       if (scrolled >= 0 && scrolled <= totalScrollableHeight) {
-        // Divide progress into 4 equal segments corresponding to the cards
         const nextIndex = Math.min(
           FEATURES_DATA.length - 1,
           Math.max(0, Math.floor(progress * FEATURES_DATA.length))
@@ -88,9 +86,7 @@ const FeatureShowcase = () => {
     <div className="features-scroll-container" ref={containerRef}>
       <div className="features-sticky-wrapper">
         <div className="container scroll-deck-layout">
-          {/* Static Title/Text block on the left */}
           <div className="features-sidebar-text">
-            {/* Active Counter Index Ticker */}
             <div className="active-counter-wrapper">
               <span key={activeIndex} className="active-counter-number">
                 0{activeIndex + 1}
@@ -104,7 +100,6 @@ const FeatureShowcase = () => {
               Scroll down to inspect our micro-architectured modules one by one.
             </p>
 
-            {/* Scroll Progress Indicator dots */}
             <div className="scroll-progress-dots">
               {FEATURES_DATA.map((_, idx) => (
                 <div 
@@ -114,7 +109,6 @@ const FeatureShowcase = () => {
               ))}
             </div>
 
-            {/* Scroll Progress Line Indicator */}
             <div className="scroll-indicator-bar">
               <div 
                 className="scroll-indicator-progress" 
@@ -123,9 +117,7 @@ const FeatureShowcase = () => {
             </div>
           </div>
 
-          {/* Stacking Card Deck on the right */}
           <div className="features-deck-wrapper">
-            {/* Glowing Backdrop Blob (Slides up on scroll) */}
             <div className="features-glow-blob" />
 
             {FEATURES_DATA.map((feat, idx) => {
@@ -133,7 +125,6 @@ const FeatureShowcase = () => {
               let cardStyle = {};
               
               if (diff > 0) {
-                // Past card: sits fanned back behind the active card
                 cardStyle = {
                   opacity: 1,
                   transform: `translateY(${-32 * diff}px) scale(${1 - 0.05 * diff}) rotate(${-1.5 * diff}deg)`,
@@ -142,7 +133,6 @@ const FeatureShowcase = () => {
                   pointerEvents: 'none',
                 };
               } else if (diff === 0) {
-                // Active card: current top card
                 cardStyle = {
                   opacity: 1,
                   transform: 'translateY(0) scale(1) rotate(0deg)',
@@ -151,7 +141,6 @@ const FeatureShowcase = () => {
                   pointerEvents: 'auto',
                 };
               } else {
-                // Future card: hidden below with blur fade
                 cardStyle = {
                   opacity: 0,
                   transform: 'translateY(220px) scale(0.88) rotate(4deg)',

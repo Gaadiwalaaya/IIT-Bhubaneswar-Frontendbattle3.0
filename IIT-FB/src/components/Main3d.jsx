@@ -7,17 +7,15 @@ const Main3d = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Use window dimensions if client bounds are temporarily 0 during layout reflow
     const width = containerRef.current.clientWidth || window.innerWidth;
     const height = containerRef.current.clientHeight || window.innerHeight;
 
-    // 1. Setup Scene, Camera, and WebGL Renderer
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x050505); // Dark monochrome background
-    scene.fog = new THREE.FogExp2(0x050505, 0.007); // Fog to fade particles in distance
+    scene.background = new THREE.Color(0x050505);
+    scene.fog = new THREE.FogExp2(0x050505, 0.007);
 
     const camera = new THREE.PerspectiveCamera(60, width / height, 1, 1000);
-    camera.position.set(0, 55, 120); // Tilt camera to view the grid at an angle
+    camera.position.set(0, 55, 120);
     camera.lookAt(0, 0, -20);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
@@ -25,7 +23,6 @@ const Main3d = () => {
     renderer.setSize(width, height);
     containerRef.current.appendChild(renderer.domElement);
 
-    // 2. Generate Grid
     const cols = 50;
     const rows = 50;
     const spacing = 6.0;
@@ -53,15 +50,14 @@ const Main3d = () => {
 
     geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    // Custom Canvas Texture for Glowing White Particles
     const createCircleTexture = () => {
       const canvas = document.createElement('canvas');
       canvas.width = 16;
       canvas.height = 16;
       const ctx = canvas.getContext('2d');
       const grad = ctx.createRadialGradient(8, 8, 0, 8, 8, 8);
-      grad.addColorStop(0, 'rgba(255, 255, 255, 1)');      // Solid white center
-      grad.addColorStop(0.35, 'rgba(255, 255, 255, 0.7)'); // Soft glow
+      grad.addColorStop(0, 'rgba(255, 255, 255, 1)');
+      grad.addColorStop(0.35, 'rgba(255, 255, 255, 0.7)');
       grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, 16, 16);
@@ -79,15 +75,13 @@ const Main3d = () => {
     const particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
-    // 3. Raycaster & Plane for Mouse Tracking (Guarantees zero division-by-zero/NaN errors)
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2(-9999, -9999);
-    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0); // y=0 plane
+    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
     const intersectPoint = new THREE.Vector3();
     let hasMouse = false;
 
     const onMouseMove = (event) => {
-      // Calculate coordinates relative to window bounds directly (fixes esbuild/division-by-zero layout bugs)
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
       hasMouse = true;
@@ -101,7 +95,6 @@ const Main3d = () => {
     window.addEventListener('mousemove', onMouseMove);
     window.addEventListener('mouseleave', onMouseLeave);
 
-    // 4. Animation Render Loop (Waving & Scattering Math)
     let animationFrameId;
     const startTime = performance.now();
 
@@ -111,7 +104,6 @@ const Main3d = () => {
       const elapsedTime = (performance.now() - startTime) * 0.001;
       const timeFactor = elapsedTime * 1.2;
 
-      // Update raycaster with mouse coordinates to find intersection on plane y=0
       if (hasMouse && mouse.x !== -9999) {
         raycaster.setFromCamera(mouse, camera);
         raycaster.ray.intersectPlane(plane, intersectPoint);
@@ -126,21 +118,19 @@ const Main3d = () => {
         const ox = origArray[i3];
         const oz = origArray[i3 + 2];
 
-        // 1. Base Waves
         let waveY = Math.sin(ox * 0.035 + timeFactor) * Math.cos(oz * 0.035 + timeFactor) * 10.0;
-        waveY += Math.sin(ox * 0.08 - timeFactor * 0.5) * 3.0; // second wave layer
+        waveY += Math.sin(ox * 0.08 - timeFactor * 0.5) * 3.0;
 
         let targetX = ox;
         let targetZ = oz;
         let targetY = waveY;
 
-        // 2. Scattering Physics
         if (hasMouse && mouse.x !== -9999) {
           const dx = ox - intersectPoint.x;
           const dz = oz - intersectPoint.z;
           const dist = Math.sqrt(dx * dx + dz * dz);
 
-          const forceRadius = 65; // Scattering area
+          const forceRadius = 65;
           if (dist < forceRadius) {
             const force = (forceRadius - dist) / forceRadius * 16.0;
             targetX = ox + (dx / dist) * force;
@@ -149,7 +139,6 @@ const Main3d = () => {
           }
         }
 
-        // 3. Elastic dampening / spring-back interpolation
         posArray[i3] += (targetX - posArray[i3]) * 0.08;
         posArray[i3 + 1] += (targetY - posArray[i3 + 1]) * 0.08;
         posArray[i3 + 2] += (targetZ - posArray[i3 + 2]) * 0.08;
@@ -157,7 +146,6 @@ const Main3d = () => {
 
       positionAttr.needsUpdate = true;
 
-      // Slow camera rotation
       camera.position.x = Math.sin(elapsedTime * 0.05) * 20;
       camera.lookAt(0, 0, -20);
 
@@ -166,7 +154,6 @@ const Main3d = () => {
 
     animate();
 
-    // 5. Resize handler
     const handleResize = () => {
       if (!containerRef.current) return;
       const w = containerRef.current.clientWidth || window.innerWidth;
@@ -180,7 +167,6 @@ const Main3d = () => {
 
     window.addEventListener('resize', handleResize);
 
-    // 6. Cleanup
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('mousemove', onMouseMove);

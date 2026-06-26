@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-// Sample metrics data for the tabs
 const METRICS_MODES = {
   throughput: {
     title: 'Data Throughput (GB/s)',
@@ -40,31 +39,25 @@ const Dashboard = () => {
   const [logs, setLogs] = useState(LOG_MESSAGES.slice(0, 4));
   const [gaugeVal, setGaugeVal] = useState(78);
 
-  // Sync points when mode changes
   useEffect(() => {
     setPoints(METRICS_MODES[mode].points);
   }, [mode]);
 
-  // Periodic animations for metrics (climbing up and down)
   useEffect(() => {
     const interval = setInterval(() => {
-      // 1. Morph line graph points slightly
       setPoints(prev => 
         prev.map(p => Math.min(130, Math.max(15, p + (Math.random() * 30 - 15))))
       );
 
-      // 2. Animate bar heights
       setBarHeights(prev => 
         prev.map(() => Math.min(100, Math.max(10, Math.floor(Math.random() * 80 + 10))))
       );
 
-      // 3. Animate radial gauge
       setGaugeVal(prev => {
         const delta = Math.floor(Math.random() * 12 - 6);
         return Math.min(99, Math.max(50, prev + delta));
       });
 
-      // 4. Rotate activity logs
       setLogs(prev => {
         const nextMsg = LOG_MESSAGES[Math.floor(Math.random() * LOG_MESSAGES.length)];
         return [nextMsg, ...prev.slice(0, 3)];
@@ -74,7 +67,6 @@ const Dashboard = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // Map points to SVG coordinates (width = 500, height = 150)
   const generatePath = (pts, isClosed) => {
     if (pts.length === 0) return '';
     const step = 500 / (pts.length - 1);
@@ -104,7 +96,6 @@ const Dashboard = () => {
 
   return (
     <section className="section dashboard-section" id="dashboard" style={{ paddingLeft: 0, paddingRight: 0 }}>
-      {/* Section Header centered in standard container */}
       <div className="container">
         <div style={{ textAlign: 'center', marginBottom: '60px' }}>
           <span className="section-tag">Live Infrastructure</span>
@@ -115,10 +106,8 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Dashboard Grid Layout - stretched edge-to-edge across screen */}
       <div className="dashboard-grid">
         
-        {/* Main Visualizer Panel */}
         <div className="dashboard-cell main-chart-cell">
           <div className="chart-header">
             <div>
@@ -138,21 +127,17 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Dynamic Morphing Graph */}
           <div className="svg-container">
             <svg viewBox="0 0 500 150" width="100%" height="100%" preserveAspectRatio="none">
-              {/* Grid Lines */}
               <line x1="0" y1="37.5" x2="500" y2="37.5" stroke="rgba(255,255,255,0.03)" strokeDasharray="4" />
               <line x1="0" y1="75" x2="500" y2="75" stroke="rgba(255,255,255,0.03)" strokeDasharray="4" />
               <line x1="0" y1="112.5" x2="500" y2="112.5" stroke="rgba(255,255,255,0.03)" strokeDasharray="4" />
 
-              {/* Shaded Area */}
               <path 
                 d={areaPath} 
                 fill="url(#chartGrad)" 
                 style={{ transition: 'd 1.5s cubic-bezier(0.25, 1, 0.5, 1)' }}
               />
-              {/* Glowing Line */}
               <path 
                 d={linePath} 
                 fill="none" 
@@ -161,7 +146,6 @@ const Dashboard = () => {
                 style={{ transition: 'd 1.5s cubic-bezier(0.25, 1, 0.5, 1)' }}
               />
 
-              {/* Gradient Definitions */}
               <defs>
                 <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#ffffff" stopOpacity="0.08" />
@@ -171,7 +155,6 @@ const Dashboard = () => {
             </svg>
           </div>
 
-          {/* Dynamic Value Ticker */}
           <div className="value-ticker-row">
             <div>
               <span className="ticker-label">Metrics Engine</span>
@@ -187,7 +170,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Bar Chart Panel */}
         <div className="dashboard-cell bar-chart-cell">
           <h3 className="chart-title">Token Load Distribution</h3>
           <span className="chart-subtitle">Regional load balancing allocations</span>
@@ -216,14 +198,12 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Gauge & Logs Panel */}
         <div className="dashboard-cell status-cell">
           <div>
             <h3 className="chart-title">Resource Allocation</h3>
             <span className="chart-subtitle" style={{ marginBottom: '16px', display: 'block' }}>Core memory buffer pools</span>
 
             <div className="gauge-row">
-              {/* SVG Circular Gauge */}
               <div className="gauge-wrapper">
                 <svg viewBox="0 0 100 100" width="80" height="80">
                   <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="6" />
@@ -254,7 +234,6 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Real-time Activity Feed Logs */}
           <div className="activity-logs">
             <span className="ticker-label" style={{ marginBottom: '12px', display: 'block' }}>Real-time Transaction Logs</span>
             <div className="log-list">

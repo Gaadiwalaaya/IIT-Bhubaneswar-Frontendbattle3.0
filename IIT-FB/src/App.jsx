@@ -12,10 +12,8 @@ import './App.css';
 function App() {
   return (
     <div className="app-layout">
-      {/* Navigation Header overlay */}
       <Navbar />
 
-      {/* Main Page Sections (Full-bleed layout starting at y=0) */}
       <main>
         <Hero />
         <FeatureShowcase />
@@ -25,7 +23,6 @@ function App() {
         <SocialProof />
       </main>
 
-      {/* Brand Footer */}
       <Footer />
     </div>
   );

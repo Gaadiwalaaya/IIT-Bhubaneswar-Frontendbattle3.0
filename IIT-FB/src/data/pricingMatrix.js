@@ -1,5 +1,5 @@
 export const PRICING_MATRIX = {
-     tiers: {
+  tiers: {
     starter: {
       name: 'Starter',
       baseMonthlyRate: 29,
@@ -40,6 +40,6 @@ export const PRICING_MATRIX = {
   },
   billing: {
     monthly: { multiplier: 1.0, label: '/ mo' },
-    annual: { multiplier: 0.8, label: '/ mo' } // 20% flat discount
+    annual: { multiplier: 0.8, label: '/ mo' }
   }
 }

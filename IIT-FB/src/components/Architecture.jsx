@@ -5,7 +5,6 @@ const Architecture = () => {
     <section className="architecture-section" id="architecture">
       <div className="architecture-split">
         
-        {/* Left Side: Solid White Background, Dark Text */}
         <div className="architecture-left">
           <div className="architecture-text-content">
             <span className="section-tag-dark">System Pipeline</span>
@@ -14,10 +13,8 @@ const Architecture = () => {
               AetherFlow replaces complex, fragile engineering layers with an autonomous stream pipeline. Here is how your data travels from source to destination in under 80 milliseconds.
             </p>
 
-            {/* Figma-style UML Use Case Diagram */}
             <div className="usecase-diagram-wrapper">
               <div className="usecase-diagram">
-                {/* Column 1: Triggers */}
                 <div className="diagram-column">
                   <div className="diagram-node trigger-node">
                     <span className="node-icon">👤</span>
@@ -33,7 +30,6 @@ const Architecture = () => {
                   </div>
                 </div>
 
-                {/* Column 2: Arrows Left */}
                 <div className="diagram-arrows">
                   <svg width="40" height="120" viewBox="0 0 40 120">
                     <path d="M 0,20 C 20,20 20,60 40,60" stroke="#050505" strokeWidth="1.5" strokeDasharray="3" fill="none" />
@@ -42,7 +38,6 @@ const Architecture = () => {
                   </svg>
                 </div>
 
-                {/* Column 3: Aether Engine Box */}
                 <div className="diagram-column system-boundary">
                   <div className="diagram-system-box">
                     <span className="system-tag">AETHER PIPELINE</span>
@@ -58,7 +53,6 @@ const Architecture = () => {
                   </div>
                 </div>
 
-                {/* Column 4: Arrows Right */}
                 <div className="diagram-arrows">
                   <svg width="40" height="120" viewBox="0 0 40 120">
                     <path d="M 0,60 C 20,60 20,20 40,20" stroke="#050505" strokeWidth="1.5" strokeDasharray="3" fill="none" />
@@ -67,7 +61,6 @@ const Architecture = () => {
                   </svg>
                 </div>
 
-                {/* Column 5: Destinations */}
                 <div className="diagram-column">
                   <div className="diagram-node dest-node">
                     <span className="node-icon">📊</span>
@@ -88,20 +81,15 @@ const Architecture = () => {
           </div>
         </div>
 
-        {/* Right Side: Black Background, White Text, Animated Flow */}
         <div className="architecture-right">
           <div className="flow-visualizer-container">
             
-            {/* Connecting Vertical Flow Line */}
             <div className="flow-connecting-line">
-              {/* Animated Flowing Data Packet */}
               <div className="flow-data-packet" />
             </div>
 
-            {/* Step Nodes */}
             <div className="flow-nodes-list">
               
-              {/* Node 1 */}
               <div className="flow-node-item node-step-1">
                 <div className="flow-node-icon-wrapper">
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -114,7 +102,6 @@ const Architecture = () => {
                 </div>
               </div>
 
-              {/* Node 2 */}
               <div className="flow-node-item node-step-2">
                 <div className="flow-node-icon-wrapper">
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -127,7 +114,6 @@ const Architecture = () => {
                 </div>
               </div>
 
-              {/* Node 3 */}
               <div className="flow-node-item node-step-3">
                 <div className="flow-node-icon-wrapper">
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
@@ -140,7 +126,6 @@ const Architecture = () => {
                 </div>
               </div>
 
-              {/* Node 4 */}
               <div className="flow-node-item node-step-4">
                 <div className="flow-node-icon-wrapper">
                   <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">

@@ -14,13 +14,11 @@ const Pricing = () => {
           </p>
         </div>
 
-        {/* Pricing Controls: Sub-components that isolate control rendering */}
         <div className="pricing-controls">
           <CurrencySelector />
           <BillingToggle />
         </div>
 
-        {/* Pricing Cards Grid */}
         <div className="pricing-grid">
           {Object.keys(PRICING_MATRIX.tiers).map((tierId) => {
             const tier = PRICING_MATRIX.tiers[tierId];
@@ -36,7 +34,6 @@ const Pricing = () => {
                   <h3 className="pricing-tier-name">{tier.name}</h3>
                   <p className="pricing-tier-desc">Dynamic computing pipelines.</p>
                   
-                  {/* Dynamic Pricing Subscriber: Re-renders in isolation when events fire */}
                   <PriceDisplay tierId={tierId} />
                   
                   <ul className="pricing-features">

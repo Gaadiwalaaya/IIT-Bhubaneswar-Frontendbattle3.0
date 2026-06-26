@@ -3,7 +3,6 @@ import React from 'react';
 const Hero = () => {
   return (
     <section className="hero-section" id="home">
-      {/* High-tech flashing data matrix video looping in black and white */}
       <video 
         autoPlay 
         loop 
